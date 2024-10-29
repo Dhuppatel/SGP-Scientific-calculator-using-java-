@@ -79,6 +79,9 @@ class Calculator implements ActionListener {
         addComponents();
         frame.setVisible(true);
 
+        ImageIcon logo = new ImageIcon(getClass().getResource("/CalciLogo.png"));
+        frame.setIconImage(logo.getImage());
+
     };
     private void addComponents() {
         jButton20 = new javax.swing.JButton();
