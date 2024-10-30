@@ -77,6 +77,7 @@ class Calculator implements ActionListener {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         addComponents();
+        frame.setResizable(false);
         frame.setVisible(true);
 
         ImageIcon logo = new ImageIcon(getClass().getResource("/CalciLogo.png"));
