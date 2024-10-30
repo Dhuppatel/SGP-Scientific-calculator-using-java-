@@ -588,54 +588,23 @@ class Calculator implements ActionListener {
 
     }// </editor-fold>
     private void toggleCalculator(boolean enable) {
-        // Toggle all buttons and fields based on enable (true for enable, false for disable)
-        Underroot.setEnabled(enable);
-        ac.setEnabled(enable);
-        clr.setEnabled(enable);
-        cos.setEnabled(enable);
-        cosh.setEnabled(enable);
-        divide.setEnabled(enable);
-        dot.setEnabled(enable);
-        equalTo.setEnabled(enable);
-        equation.setEnabled(enable);
-        exp.setEnabled(enable);
-        factorial.setEnabled(enable);
-        inverse.setEnabled(enable);
-        jButton20.setEnabled(enable);
-        jButton21.setEnabled(enable);
-        jButton22.setEnabled(enable);
-        jButton23.setEnabled(enable);
-        jButton28.setEnabled(enable);
-        jButton29.setEnabled(enable);
-        jButton30.setEnabled(enable);
-        jButton31.setEnabled(enable);
-        jButton4.setEnabled(enable);
-        jButton6.setEnabled(enable);
-        log.setEnabled(enable);
-        minus.setEnabled(enable);
-        modulo.setEnabled(enable);
-        multiply.setEnabled(enable);
-        num0.setEnabled(enable);
-        num1.setEnabled(enable);
-        num2.setEnabled(enable);
-        num3.setEnabled(enable);
-        num4.setEnabled(enable);
-        num5.setEnabled(enable);
-        num6.setEnabled(enable);
-        num7.setEnabled(enable);
-        num8.setEnabled(enable);
-        num9.setEnabled(enable);
-        parenthasisClose.setEnabled(enable);
-        parenthesisOpen.setEnabled(enable);
-        plus.setEnabled(enable);
-        plusorminus.setEnabled(enable);
-        sin.setEnabled(enable);
-        sinh.setEnabled(enable);
-        tan.setEnabled(enable);
-        tanh.setEnabled(enable);
-        xQube.setEnabled(enable);
-        xSquare.setEnabled(enable);
-        xraisetoy.setEnabled(enable);
+        // Group buttons into an array for enabling/disabling
+        JButton[] buttons = {
+                Underroot, ac, clr, cos, cosh, divide, dot, equalTo, equation,
+                exp, factorial, inverse, jButton20, jButton21, jButton22, jButton23,
+                jButton28, jButton29, jButton30, jButton31, jButton4, jButton6,
+                log, minus, modulo, multiply, num0, num1, num2, num3, num4,
+                num5, num6, num7, num8, num9, parenthasisClose, parenthesisOpen,
+                plus, plusorminus, sin, sinh, tan, tanh, xQube, xSquare,
+                xraisetoy
+        };
+
+        // Toggle each button's enabled state
+        for (JButton button : buttons) {
+            button.setEnabled(enable);
+        }
+
+        // Enable or disable the text field and label
         jTextField1.setEnabled(enable); // Text field
         label.setEnabled(enable); // Label (if necessary)
 
