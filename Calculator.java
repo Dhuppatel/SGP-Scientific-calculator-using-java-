@@ -646,50 +646,19 @@ class Calculator implements ActionListener {
         }
     }
 
-    public void addActionEvents()
-    {
-        Underroot.addActionListener(this);//0to9
-        ac.addActionListener(this);
-        clr.addActionListener(this);
-        cos.addActionListener(this);
-        cosh.addActionListener(this);
-        dot.addActionListener(this);
-        divide.addActionListener(this);
-        equalTo.addActionListener(this);
-        exp.addActionListener(this);
-        equation.addActionListener(this);//9
-        factorial.addActionListener(this);//=
-        inverse.addActionListener(this);//+
-        log.addActionListener(this);//-
-        minus.addActionListener(this);// /
-        modulo.addActionListener(this);// *
-        multiply.addActionListener(this);// CLR
-        num0.addActionListener(this);//AC
-        num1.addActionListener(this);//%
-        num2.addActionListener(this);// 1/x
-        num3.addActionListener(this);//x^2
-        num4.addActionListener(this);// +/-
-        num5.addActionListener(this);// .dot
-        num6.addActionListener(this);//sin
-        num7.addActionListener(this);//cos
-        num8.addActionListener(this);//tan
-        num9.addActionListener(this);
-        offRadioButton.addActionListener(this);
-        onRadioButton.addActionListener(this);
-        parenthasisClose.addActionListener(this);
-        parenthesisOpen.addActionListener(this);
-        plus.addActionListener(this);
-        plusorminus.addActionListener(this);
-        sin.addActionListener(this);
-        sinh.addActionListener(this);
-        tan.addActionListener(this);
-        tanh.addActionListener(this);
-        xQube.addActionListener(this);
-        xSquare.addActionListener(this);
-        xraisetoy.addActionListener(this);
-        //.addActionListener(this);
-        //.addActionListener(this);
+    //adding action listner to all the buttons using for each loop to increase code readiblity.
+    public void addActionEvents() {
+        AbstractButton[] buttons = { // Use AbstractButton to include both JButtons and JRadioButtons
+                Underroot, ac, clr, cos, cosh, dot, divide, equalTo, exp, equation,
+                factorial, inverse, log, minus, modulo, multiply, num0, num1, num2,
+                num3, num4, num5, num6, num7, num8, num9, offRadioButton, onRadioButton,
+                parenthasisClose, parenthesisOpen, plus, plusorminus, sin, sinh, tan,
+                tanh, xQube, xSquare, xraisetoy
+        };
 
+        for (AbstractButton button : buttons) {
+            button.addActionListener(this);
+        }
     }
     public static void main(String[] args) {
         new Calculator();
