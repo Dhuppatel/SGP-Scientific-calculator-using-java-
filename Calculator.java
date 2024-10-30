@@ -637,253 +637,449 @@ class Calculator implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
 
-
-
-        if(source==equation)
-        {
-            jLabel1.setText("Enter coefficents");
-            number=answer=0.00;
-            operation="equation";
-            jTextField1.setText("a=");
+        // Handle equation input
+        if (source == equation) {
+            jLabel1.setText("Enter coefficients");
+            number = answer = 0.00;
+            operation = "equation";
+            jTextField1.setText("a="); // Ask for the first coefficient
+            return;
         }
 
-        else if (source==num0)
-        {
-
-            jTextField1.setText(jTextField1.getText()+"0");
-        }else if (source==num1) {
-            jTextField1.setText(jTextField1.getText()+"1");
-        }else if (source==num2) {
-            jTextField1.setText(jTextField1.getText()+"2");
-        }else if (source==num3) {
-            jTextField1.setText(jTextField1.getText()+"3");
-        }else if (source==num4) {
-            jTextField1.setText(jTextField1.getText()+"4");
-        }else if (source==num5) {
-            jTextField1.setText(jTextField1.getText()+"5");
-        }else if (source==num6) {
-            jTextField1.setText(jTextField1.getText()+"6");
-        }else if (source==num7) {
-            jTextField1.setText(jTextField1.getText()+"7");
-        }else if (source==num8) {
-            jTextField1.setText(jTextField1.getText()+"8");
-        }else if (source==num9) {
-            jTextField1.setText(jTextField1.getText()+"9");
-        }
-        else if (source==plus) {
-
-            number=Double.parseDouble(jTextField1.getText());
-            jTextField1.setText("");
-            jLabel1.setText(number+"+");
-            operation="+";
-        }else if (source==modulo) {
-            number=Double.parseDouble(jTextField1.getText());
-            jTextField1.setText("");
-            jLabel1.setText(number+"%");
-            operation="%";
-        }else if (source==minus) {
-            if (jTextField1.getText().equals(""))
-            {
-                jTextField1.setText("-");
-            }else {
-                number = Double.parseDouble(jTextField1.getText());
-                jTextField1.setText("");
-                jLabel1.setText(number + "-");
-                operation = "-";
-            }
-        }else if (source==divide) {
-            number=Double.parseDouble(jTextField1.getText());
-            jTextField1.setText("");
-            jLabel1.setText(number+"/");
-            operation="/";
-        }
-        else if (source==multiply) {
-
-            number=Double.parseDouble(jTextField1.getText());
-            jTextField1.setText("");
-            jLabel1.setText(number+"*");
-            operation="*";
-        }else if (source==equalTo) {//=
-//            jLabel1.setText("");
-
-            switch (operation) {
-                case "equation":
-                    try {
-                        if (a!=0&&b!=0&&c!=0) {
-                            String roots = findroots(a, b, c);
-                            // Set the roots output in the text field here
-                            jTextField1.setText(roots);
-                            jLabel1.setText("Ans :");
-                            a=b=c=0;
-                        }
-                        else if (jTextField1.getText().startsWith("a=")) {
-                            a = Integer.parseInt(jTextField1.getText().substring(2));
-                            jTextField1.setText("b=");
-                        } else if (jTextField1.getText().startsWith("b=")) {
-                            b = Integer.parseInt(jTextField1.getText().substring(2));
-                            jTextField1.setText("c=");
-                        } else if (jTextField1.getText().startsWith("c=")) {
-                            c = Integer.parseInt(jTextField1.getText().substring(2));
-
-                        }
-                    } catch (NumberFormatException e1) {
-                        jTextField1.setText("Invalid input! Please enter numbers.");
-                    }
-
-                    break;
-
-                case "+":
-                    answer = number + Double.parseDouble(jTextField1.getText());
-                    jTextField1.setText("" + answer);
-                    break;
-                case "-":
-                    answer = number - Double.parseDouble(jTextField1.getText());
-                    jTextField1.setText("" + answer);
-                    break;
-                case "*":
-                    answer = number * Double.parseDouble(jTextField1.getText());
-                    jTextField1.setText("" + answer);
-                    break;
-                case "/":
-                    answer = number / Double.parseDouble(jTextField1.getText());
-                    jTextField1.setText("" + answer);
-                    break;
-                case "%":
-                    //percentage = ( part / total ) × 100
-                    answer = (Double.parseDouble(jTextField1.getText()) / number) * 100;
-                    jTextField1.setText("" + answer);
-                    break;
-                case "^":
-                    answer=Math.pow(number, Double.parseDouble(jTextField1.getText()));
-                    jTextField1.setText("" + answer);
-                    break;
-
-            }
-
-
-        }else if (source==dot) {
-            if(jTextField1.getText().contains("."))
-            {   //do nothing
+        // Handle numeric button presses
+        for (int i = 0; i <= 9; i++) {
+            if (source == getButtonByNumber(i)) {
+                jTextField1.setText(jTextField1.getText() + i);
                 return;
-            }else{
-                jTextField1.setText(jTextField1.getText()+".");
             }
-        } else if (source==clr) {//CLR
-            jTextField1.setText(jTextField1.getText().substring(0,jTextField1.getText().length()-1));
-        }else if (source==ac) {//AC
+        }
+
+        // Handle arithmetic operations
+        if (isArithmeticOperation(source)) {
+            handleArithmeticOperation(source);
+            return;
+        }
+
+        // Handle equal sign
+        if (source == equalTo) {
+            calculateResult();
+            return;
+        }
+
+        // Handle other operations
+        if (source == dot) { // Handle dot (.)
+            if (!jTextField1.getText().contains(".")) {
+                jTextField1.setText(jTextField1.getText() + ".");
+            }
+        } else if (source == clr) { // Handle clear last character (CLR)
+            String currentText = jTextField1.getText();
+            if (currentText.length() > 0) {
+                jTextField1.setText(currentText.substring(0, currentText.length() - 1));
+            }
+        } else if (source == ac) { // Handle all clear (AC)
             jTextField1.setText("");
             jLabel1.setText("");
-            number=answer=0.0;
-        }else if(source==inverse) {// 1/x
-            jTextField1.setText("" +1/Double.parseDouble(jTextField1.getText()));
-        } else if (source==xSquare) {// x^2
-            jTextField1.setText("" +Double.parseDouble(jTextField1.getText())*Double.parseDouble(jTextField1.getText()));
-        }else if (source==plusorminus) {// +/-
-            if(jTextField1.getText().startsWith("-"))
-            {
-                jTextField1.setText(jTextField1.getText().substring(1,jTextField1.getText().length()));
-            } else{
-                jTextField1.setText("-"+jTextField1.getText());
+            number = answer = 0.0;
+        } else if (source == inverse) { // Handle inverse (1/x)
+            performInverse();
+        } else if (source == xSquare) { // Handle square (x^2)
+            performSquare();
+        } else if (source == plusorminus) { // Handle plus/minus toggle
+            togglePlusMinus();
+        } else if (source == Underroot) { // Handle square root (√x)
+            performSquareRoot();
+        } else if (source == sin) { // Handle sine function
+            performTrigonometricOperation(Math::sin);
+        } else if (source == cos) { // Handle cosine function
+            performTrigonometricOperation(Math::cos);
+        } else if (source == tan) { // Handle tangent function
+            performTrigonometricOperation(Math::tan);
+        } else if (source == sinh) { // Handle hyperbolic sine function
+            performTrigonometricOperation(Math::sinh);
+        } else if (source == cosh) { // Handle hyperbolic cosine function
+            performTrigonometricOperation(Math::cosh);
+        } else if (source == tanh) { // Handle hyperbolic tangent function
+            performTrigonometricOperation(Math::tanh);
+        } else if (source == log) { // Handle logarithm
+            performLogarithm();
+        } else if (source == exp) { // Handle exponential function
+            performExponential();
+        } else if (source == factorial) { // Handle factorial calculation
+            performFactorial();
+        } else if (source == xQube) { // Handle cube (x^3)
+            performCube();
+        } else if (source == xraisetoy) { // Handle power operation (x^y)
+            handlePowerOperation();
+        } else if (source == offRadioButton) { // Handle off state
+            if (offRadioButton.isSelected()) {
+                jTextField1.setText("");
+                jLabel1.setText("");
+                number = answer = 0.0;
+                toggleCalculator(false);
+            }
+        } else if (source == onRadioButton) { // Handle on state
+            if (onRadioButton.isSelected()) {
+                toggleCalculator(true);
             }
         }
+    }
 
+    // Helper methods
 
+    private JButton getButtonByNumber(int number) {
+        switch (number) {
+            case 0: return num0;
+            case 1: return num1;
+            case 2: return num2;
+            case 3: return num3;
+            case 4: return num4;
+            case 5: return num5;
+            case 6: return num6;
+            case 7: return num7;
+            case 8: return num8;
+            case 9: return num9;
+            default: return null;
+        }
+    }
 
+    private boolean isArithmeticOperation(Object source) {
+        return source == plus || source == minus || source == multiply || source == divide || source == modulo;
+    }
 
-        else if (source == Underroot) { // √x
-            answer = Math.sqrt(Double.parseDouble(jTextField1.getText()));
-            jTextField1.setText("" + answer);
-        } else if (source == sin) { // sin(x)
-            answer = Math.sin(Math.toRadians(Double.parseDouble(jTextField1.getText()))); // Convert degrees to radians
-            jTextField1.setText("" + answer);
-        } else if (source == cos) { // cos(x)
-            answer = Math.cos(Math.toRadians(Double.parseDouble(jTextField1.getText())));
-            jTextField1.setText("" + answer);
-        } else if (source == tan) { // tan(x)
-            answer = Math.tan(Math.toRadians(Double.parseDouble(jTextField1.getText())));
-            jTextField1.setText("" + answer);
-        } else if (source == sinh) { // sinh(x)
-            answer = Math.sinh(Double.parseDouble(jTextField1.getText()));
-            jTextField1.setText("" + answer);
-        } else if (source == cosh) { // cosh(x)
-            answer = Math.cosh(Double.parseDouble(jTextField1.getText()));
-            jTextField1.setText("" + answer);
-        } else if (source == tanh) { // tanh(x)
-            answer = Math.tanh(Double.parseDouble(jTextField1.getText()));
-            jTextField1.setText("" + answer);
-        } else if (source == log) { // log(x)
-            answer = Math.log10(Double.parseDouble(jTextField1.getText()));
-            jTextField1.setText("" + answer);
-        } else if (source == exp) { // e^x
-            answer = Math.exp(Double.parseDouble(jTextField1.getText()));
-            jTextField1.setText("" + answer);
-        } else if (source == factorial) { // x!
-            int num = Integer.parseInt(jTextField1.getText());
-            answer = 1.0;
-            for (int i = 1; i <= num; i++) {
-                answer *= i;
-            }
-            jTextField1.setText("" + answer);
-        } else if (source == xSquare) { // x^2
-            answer = Math.pow(Double.parseDouble(jTextField1.getText()), 2);
-            jTextField1.setText("" + answer);
-        } else if (source == xQube) { // x^3
-            answer = Math.pow(Double.parseDouble(jTextField1.getText()), 3);
-            jTextField1.setText("" + answer);
-        } else if (source == xraisetoy) { // x^y
+    private void handleArithmeticOperation(Object source) {
+        try {
             number = Double.parseDouble(jTextField1.getText());
             jTextField1.setText("");
-            operation = "^";
-            jLabel1.setText(number + "^");
-        } else if (source == equalTo && operation.equals("^")) { // x^y
-            answer = Math.pow(number, Double.parseDouble(jTextField1.getText()));
-            jTextField1.setText("" + answer);
+            operation = source == plus ? "+" :
+                    source == minus ? "-" :
+                            source == multiply ? "*" :
+                                    source == divide ? "/" : "%";
+            jLabel1.setText(number + operation);
+        } catch (NumberFormatException e) {
+            jTextField1.setText("Invalid input!");
         }
+    }
+
+    private void calculateResult() {
+        try {
+            // Check if the text field is empty or has only whitespace
+            String inputText = jTextField1.getText().trim();
+            if (inputText.isEmpty()) {
+                jTextField1.setText("Input cannot be empty!");
+                return;
+            }
+
+            // Check if the input is for a variable assignment
+            if (inputText.startsWith("a=") || inputText.startsWith("b=") || inputText.startsWith("c=")) {
+                // Determine which variable is being assigned
+                char variable = inputText.charAt(0);
+                double value = Double.parseDouble(inputText.substring(2).trim());
+
+                // Assign the value to the appropriate variable
+                if (variable == 'a') {
+                    a = value;
+                    jTextField1.setText("b=");
+                } else if (variable == 'b') {
+                    b = value;
+                    jTextField1.setText("c=");
+                } else if (variable == 'c') {
+                    c = value;
+                    jLabel1.setText("");
+                    // Optionally, you can call the equation solving method here
+                    if (a != 0 && b != 0 && c != 0) {
+                        String roots = handleEquation(a, b, c);
+                        jTextField1.setText(roots);
+                        // Reset values after computation
+                        a = b = c = 0;
+                    }
+                }
+                return; // Exit after handling variable assignment
+            }
+
+            // At this point, the input should be a numeric value
+            double secondOperand = Double.parseDouble(inputText);
+
+            switch (operation) {
+                case "+":
+                    answer = number + secondOperand;
+                    break;
+                case "-":
+                    answer = number - secondOperand;
+                    break;
+                case "*":
+                    answer = number * secondOperand;
+                    break;
+                case "/":
+                    if (secondOperand == 0) {
+                        jTextField1.setText("Cannot divide by zero!");
+                        return;
+                    }
+                    answer = number / secondOperand;
+                    break;
+                case "%":
+                    answer = (secondOperand / number) * 100;
+                    break;
+                case "^":
+                    answer = Math.pow(number, secondOperand);
+                    break;
+                default:
+                    jTextField1.setText("Invalid operation!");
+                    return;
+            }
+
+            // Set the result in the text field
+            jTextField1.setText(String.valueOf(answer));
+        } catch (NumberFormatException e) {
+            jTextField1.setText("Invalid input! Please enter numeric values.");
+        } catch (Exception e) {
+            jTextField1.setText("An unexpected error occurred: " + e.getMessage());
+        }
+    }
 
 
-       else if (offRadioButton.isSelected())
-        {
+
+    private String handleEquation(double a, double b, double c) {
+        try {
+            // Calculate the discriminant
+            double discriminant = b * b - 4 * a * c;
+
+            // Determine the roots
+            if (discriminant > 0) {
+                double root1 = (-b + Math.sqrt(discriminant)) / (2 * a);
+                double root2 = (-b - Math.sqrt(discriminant)) / (2 * a);
+                return "Roots: " + root1 + ", " + root2;
+            } else if (discriminant == 0) {
+                double root = -b / (2 * a);
+                return "Root: " + root;
+            } else {
+                return "No real roots";
+            }
+        } catch (Exception e) {
+            return "An unexpected error occurred: " + e.getMessage();
+        }
+    }
+
+
+
+
+
+
+    // Perform various operations (these can be further implemented as needed)
+    private void performInverse() {
+        try {
+            // Attempt to parse the value from the text field
+            double value = Double.parseDouble(jTextField1.getText());
+
+            // Check if the value is not zero to avoid division by zero
+            if (value != 0) {
+                // Calculate and display the inverse
+                jTextField1.setText(String.valueOf(1 / value));
+            } else {
+                // Handle division by zero case
+                jTextField1.setText("Cannot divide by zero!");
+            }
+        } catch (NumberFormatException e) {
+            // Handle invalid input (not a number)
+            jTextField1.setText("Invalid input!");
+        } catch (Exception e) {
+            // Handle any other unexpected exceptions
+            jTextField1.setText("Error: " + e.getMessage());
+        }
+    }
+
+
+    private void performSquare() {
+        try {
+            // Attempt to parse the value from the text field
+            double value = Double.parseDouble(jTextField1.getText());
+
+            // Calculate the square and update the text field
+            jTextField1.setText(String.valueOf(value * value));
+        } catch (NumberFormatException e) {
+            // Handle invalid input (not a number)
+            jTextField1.setText("Invalid input!");
+        } catch (Exception e) {
+            // Handle any other unexpected exceptions
+            jTextField1.setText("Error: " + e.getMessage());
+        }
+    }
+
+
+    private void togglePlusMinus() {
+        try {
+            // Attempt to parse the value from the text field
+            double value = Double.parseDouble(jTextField1.getText());
+
+            // Negate the value and update the text field
+            jTextField1.setText(String.valueOf(-value));
+        } catch (NumberFormatException e) {
+            // Handle invalid input (not a number)
+            jTextField1.setText("Invalid input!");
+        } catch (Exception e) {
+            // Handle any other unexpected exceptions
+            jTextField1.setText("Error: " + e.getMessage());
+        }
+    }
+
+
+    private void performSquareRoot() {
+        try {
+            // Attempt to parse the value from the text field
+            double value = Double.parseDouble(jTextField1.getText());
+
+            // Check if the value is negative
+            if (value < 0) {
+                jTextField1.setText("Invalid input for square root");
+            } else {
+                // Calculate the square root and update the text field
+                jTextField1.setText(String.valueOf(Math.sqrt(value)));
+            }
+        } catch (NumberFormatException e) {
+            // Handle invalid input (not a number)
+            jTextField1.setText("Invalid input!");
+        } catch (Exception e) {
+            // Handle any other unexpected exceptions
+            jTextField1.setText("Error: " + e.getMessage());
+        }
+    }
+
+
+    private void performTrigonometricOperation(DoubleUnaryOperator operation) {
+        try {
+            // Attempt to parse the value from the text field
+            double value = Double.parseDouble(jTextField1.getText());
+
+            // Calculate the result using the provided trigonometric operation
+            jTextField1.setText(String.valueOf(operation.applyAsDouble(value)));
+        } catch (NumberFormatException e) {
+            // Handle invalid input (not a number)
+            jTextField1.setText("Invalid input!");
+        } catch (Exception e) {
+            // Handle any other unexpected exceptions
+            jTextField1.setText("Error: " + e.getMessage());
+        }
+    }
+
+
+    private void performLogarithm() {
+        try {
+            // Attempt to parse the value from the text field
+            double value = Double.parseDouble(jTextField1.getText());
+
+            // Check if the value is less than or equal to zero
+            if (value <= 0) {
+                jTextField1.setText("Invalid input for log");
+            } else {
+                // Calculate the logarithm and update the text field
+                jTextField1.setText(String.valueOf(Math.log(value)));
+            }
+        } catch (NumberFormatException e) {
+            // Handle invalid input (not a number)
+            jTextField1.setText("Invalid input!");
+        } catch (Exception e) {
+            // Handle any other unexpected exceptions
+            jTextField1.setText("Error: " + e.getMessage());
+        }
+    }
+
+
+    private void performExponential() {
+        try {
+            // Attempt to parse the value from the text field
+            double value = Double.parseDouble(jTextField1.getText());
+
+            // Calculate the exponential of the value and update the text field
+            jTextField1.setText(String.valueOf(Math.exp(value)));
+        } catch (NumberFormatException e) {
+            // Handle invalid input (not a number)
+            jTextField1.setText("Invalid input!");
+        } catch (Exception e) {
+            // Handle any other unexpected exceptions
+            jTextField1.setText("Error: " + e.getMessage());
+        }
+    }
+
+
+    private void performFactorial() {
+        try {
+            // Attempt to parse the value from the text field
+            int value = (int) Double.parseDouble(jTextField1.getText());
+
+            // Check if the value is negative
+            if (value < 0) {
+                jTextField1.setText("Invalid input for factorial");
+                return;
+            }
+
+            // Calculate the factorial
+            long factorial = 1;
+            for (int i = 1; i <= value; i++) {
+                factorial *= i;
+            }
+
+            // Update the text field with the result
+            jTextField1.setText(String.valueOf(factorial));
+        } catch (NumberFormatException e) {
+            // Handle invalid input (not a number)
+            jTextField1.setText("Invalid input!");
+        } catch (ArithmeticException e) {
+            // Handle potential overflow if factorial exceeds long range
+            jTextField1.setText("Result too large!");
+        } catch (Exception e) {
+            // Handle any other unexpected exceptions
+            jTextField1.setText("Error: " + e.getMessage());
+        }
+    }
+
+
+    private void performCube() {
+        try {
+            // Attempt to parse the value from the text field
+            double value = Double.parseDouble(jTextField1.getText());
+
+            // Calculate the cube of the value
+            double cube = value * value * value;
+
+            // Update the text field with the result
+            jTextField1.setText(String.valueOf(cube));
+        } catch (NumberFormatException e) {
+            // Handle invalid input (not a number)
+            jTextField1.setText("Invalid input!");
+        } catch (Exception e) {
+            // Handle any other unexpected exceptions
+            jTextField1.setText("Error: " + e.getMessage());
+        }
+    }
+
+
+    private void handlePowerOperation() {
+        try {
+            // Capture the base (already stored in 'number')
+            double base = number;
+
+            // Clear the text field to input the exponent
             jTextField1.setText("");
-            jLabel1.setText("");
-            number=answer=0.0;
-            toggleCalculator(false);
 
-        }
-       else if (onRadioButton.isSelected())
-        {
-            toggleCalculator(true);
-        }
-    }
-    public static String findroots(double a, double b, double c) {
+            // Store the operation type
+            operation = "^";
+            jLabel1.setText(base + "^"); // Update the label to show the operation
 
-        double firstRoot, secondRoot;
+            // Add an ActionListener to capture the exponent when the user inputs it
+            equalTo.addActionListener(e -> {
+                try {
+                    double exponent = Double.parseDouble(jTextField1.getText());
+                    // Calculate the power
+                    double result = Math.pow(base, exponent);
+                    // Display the result
+                    jTextField1.setText("" + result);
+                } catch (NumberFormatException ex) {
+                    jTextField1.setText("Invalid input!");
+                }
+            });
 
-        // determinant (b^2 - 4ac)
-        double det = b * b - 4 * a * c;
-
-        // check if determinant is greater than 0
-        if (det > 0) {
-            // two real and distinct roots
-            firstRoot = (-b + Math.sqrt(det)) / (2 * a);
-            secondRoot = (-b - Math.sqrt(det)) / (2 * a);
-
-            return "Real Roots: " + firstRoot + " and " + secondRoot;
-        }
-        // check if determinant is equal to 0
-        else if (det == 0) {
-            // two real and equal roots
-            firstRoot = -b / (2 * a);
-
-            return "Equal Real Roots: " + firstRoot;
-        }
-        // if determinant is less than zero
-        else {
-            // roots are complex numbers and distinct
-            double realPart = -b / (2 * a);
-            double imaginaryPart = Math.sqrt(-det) / (2 * a);
-
-            return "Complex Roots: " + realPart + " + " + imaginaryPart + "i and "
-                    + realPart + " - " + imaginaryPart + "i";
+        } catch (Exception e) {
+            jTextField1.setText("Error!");
         }
     }
+
 }
