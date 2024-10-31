@@ -25,7 +25,7 @@ A desktop-based scientific calculator application built in Java that performs va
 - GitHub for version control and collaboration
 
 ## Screen Shot
-![Scientific Calculator UI](https://github.com/Dharam13/SGP-Scientific-calculator-using-java-/blob/main/calci_UI.png)
+![Scientific Calculator UI](https://github.com/Dhuppatel/SGP-Scientific-calculator-using-java-/blob/main/calci_UI.png)
 
 
 ## Installation
