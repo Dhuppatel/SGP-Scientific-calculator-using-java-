@@ -1,7 +1,9 @@
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.function.DoubleUnaryOperator;
 
 import static javax.swing.text.StyleConstants.setBackground;
 
@@ -72,14 +74,22 @@ class Calculator implements ActionListener {
 
     void createGUI()
     {
+        Border br = BorderFactory.createLineBorder(Color.black, 3);
+        jLabel1 = new JLabel("Calculator Label");
+        jLabel1.setBorder(br);
 
         frame = new JFrame("Calculator");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setResizable(false);
 
+        // Set border on the content pane of the frame
+        JPanel contentPane = new JPanel(new BorderLayout());
+        contentPane.setBorder(br);  // Set border here
+        frame.setContentPane(contentPane);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         addComponents();
         frame.setResizable(false);
         frame.setVisible(true);
-
         ImageIcon logo = new ImageIcon(getClass().getResource("/CalciLogo.png"));
         frame.setIconImage(logo.getImage());
 
@@ -616,7 +626,7 @@ class Calculator implements ActionListener {
         }
     }
 
-    //adding action listner to all the buttons using for each loop to increase code readiblity.
+
     public void addActionEvents() {
         AbstractButton[] buttons = { // Use AbstractButton to include both JButtons and JRadioButtons
                 Underroot, ac, clr, cos, cosh, dot, divide, equalTo, exp, equation,
@@ -630,6 +640,8 @@ class Calculator implements ActionListener {
             button.addActionListener(this);
         }
     }
+
+
     public static void main(String[] args) {
         new Calculator();
     }
