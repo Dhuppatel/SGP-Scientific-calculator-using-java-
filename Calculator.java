@@ -3,6 +3,8 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Map;
+import java.util.Stack;
 import java.util.function.DoubleUnaryOperator;
 
 import static javax.swing.text.StyleConstants.setBackground;
@@ -740,6 +742,10 @@ class Calculator implements ActionListener {
             jTextField1.setText(jTextField1.getText()+"(");
         }else if (source==parenthasisClose){
             jTextField1.setText(jTextField1.getText()+")");
+        }else if (source==infix) {
+            operation="string";
+            jLabel1.setText("Enter Infix");
+            
         }
     }
 
@@ -779,90 +785,221 @@ class Calculator implements ActionListener {
         }
     }
 
-   private void calculateResult() {
-        try {
-            // Check if the text field is empty or has only whitespace
-            String inputText = jTextField1.getText().trim();
-            if (inputText.isEmpty()) {
-                jTextField1.setText("Input cannot be empty!");
-                return;
-            }
+//    private void calculateResult() {
+//         try {
+//             // Check if the text field is empty or has only whitespace
+//             String inputText = jTextField1.getText().trim();
+//             if (inputText.isEmpty()) {
+//                 jTextField1.setText("Input cannot be empty!");
+//                 return;
+//             }
 
-            // Handle variable assignments (a=, b=, c=)
-            if (inputText.startsWith("a=") || inputText.startsWith("b=") || inputText.startsWith("c=")) {
-                // Determine which variable is being assigned
-                char variable = inputText.charAt(0);
-                double value = Double.parseDouble(inputText.substring(2).trim());
+//             // Handle variable assignments (a=, b=, c=)
+//             if (inputText.startsWith("a=") || inputText.startsWith("b=") || inputText.startsWith("c=")) {
+//                 // Determine which variable is being assigned
+//                 char variable = inputText.charAt(0);
+//                 double value = Double.parseDouble(inputText.substring(2).trim());
 
-                // Assign the value to the appropriate variable
-                if (variable == 'a') {
-                    a = value;
-                    jTextField1.setText("b=");
-                } else if (variable == 'b') {
-                    b = value;
-                    jTextField1.setText("c=");
-                } else if (variable == 'c') {
-                    c = value;
-                    jLabel1.setText("");
+//                 // Assign the value to the appropriate variable
+//                 if (variable == 'a') {
+//                     a = value;
+//                     jTextField1.setText("b=");
+//                 } else if (variable == 'b') {
+//                     b = value;
+//                     jTextField1.setText("c=");
+//                 } else if (variable == 'c') {
+//                     c = value;
+//                     jLabel1.setText("");
 
-                    // Check if all variables are assigned
-                    if (!Double.isNaN(a) && !Double.isNaN(b) && !Double.isNaN(c)) {
-                        // Solve the equation
-                        String roots = handleEquation(a, b, c);
-                        jTextField1.setText(roots);
+//                     // Check if all variables are assigned
+//                     if (!Double.isNaN(a) && !Double.isNaN(b) && !Double.isNaN(c)) {
+//                         // Solve the equation
+//                         String roots = handleEquation(a, b, c);
+//                         jTextField1.setText(roots);
 
-                        // Reset values after computation
-                        a = b = c = Double.NaN;
-                    }
-                }
-                return; // Exit after handling variable assignment
-            }
+//                         // Reset values after computation
+//                         a = b = c = Double.NaN;
+//                     }
+//                 }
+//                 return; // Exit after handling variable assignment
+//             }
 
-            // Handle mathematical operations
-            double secondOperand = Double.parseDouble(inputText);
+//             // Handle mathematical operations
+//             double secondOperand = Double.parseDouble(inputText);
 
-            switch (operation) {
-                case "+":
-                    answer = number + secondOperand;
-                    break;
-                case "-":
-                    answer = number - secondOperand;
-                    break;
-                case "*":
-                    answer = number * secondOperand;
-                    break;
-                case "/":
-                    if (secondOperand == 0) {
-                        jTextField1.setText("Cannot divide by zero!");
-                        return;
-                    }
-                    answer = number / secondOperand;
-                    break;
-                case "%":
-                    answer = (secondOperand / number) * 100;
-                    break;
-                case "^":
-                    // Exponentiation logic (x^y)
-                    answer = Math.pow(number, secondOperand);
-                    break;
-                default:
-                    jTextField1.setText("Invalid operation!");
-                    return;
-            }
+//             switch (operation) {
+//                 case "+":
+//                     answer = number + secondOperand;
+//                     break;
+//                 case "-":
+//                     answer = number - secondOperand;
+//                     break;
+//                 case "*":
+//                     answer = number * secondOperand;
+//                     break;
+//                 case "/":
+//                     if (secondOperand == 0) {
+//                         jTextField1.setText("Cannot divide by zero!");
+//                         return;
+//                     }
+//                     answer = number / secondOperand;
+//                     break;
+//                 case "%":
+//                     answer = (secondOperand / number) * 100;
+//                     break;
+//                 case "^":
+//                     // Exponentiation logic (x^y)
+//                     answer = Math.pow(number, secondOperand);
+//                     break;
+//                     case "string":
+//                     try {
+//                         // Get the input expression and trim spaces
+//                         String infixExpression = jTextField1.getText().trim();
+                
+//                         // Validate if the input is empty
+//                         if (infixExpression.isEmpty()) {
+//                             jTextField1.setText("Input cannot be empty!");
+//                             return;
+//                         }
+                
+//                         // Solve the infix expression using the solveInfix function
+//                         double result = solveInfix(infixExpression);
+                
+//                         // Display the result
+//                         jTextField1.setText(String.valueOf(result));
+//                     } catch (IllegalArgumentException e) {
+//                         // Handle invalid expressions or errors from solveInfix
+//                         jTextField1.setText("Error: " + e.getMessage());
+//                     } catch (Exception e) {
+//                         // Catch any unexpected errors
+//                         jTextField1.setText("An unexpected error occurred: " + e.getMessage());
+//                     }
+//                     break;
+//                 default:
+//                     jTextField1.setText("Invalid operation!");
+//                     return;
+//             }
 
-            // Set the result in the text field
-            jTextField1.setText(String.valueOf(answer));
+//             // Set the result in the text field
+//             jTextField1.setText(String.valueOf(answer));
 
-            // Reset operation and number after completion
-            operation = "";
-            number =(double) 0;
+//             // Reset operation and number after completion
+//             operation = "";
+//             number =(double) 0;
 
-        } catch (NumberFormatException e) {
-            jTextField1.setText("Invalid input! Please enter numeric values.");
-        } catch (Exception e) {
-            jTextField1.setText("An unexpected error occurred: " + e.getMessage());
+//         } catch (NumberFormatException e) {
+//             jTextField1.setText("Invalid input! Please enter numeric values.");
+//         } catch (Exception e) {
+//             jTextField1.setText("An unexpected error occurred: " + e.getMessage());
+//         }
+//     }
+
+
+
+private void calculateResult() {
+    try {
+        // Get the input from the text field
+        String inputText = jTextField1.getText().trim();
+
+        // Check if the text field is empty
+        if (inputText.isEmpty()) {
+            jTextField1.setText("Input cannot be empty!");
+            return;
         }
+
+        // Handle variable assignments (a=, b=, c=)
+        if (inputText.startsWith("a=") || inputText.startsWith("b=") || inputText.startsWith("c=")) {
+            char variable = inputText.charAt(0);
+            double value = Double.parseDouble(inputText.substring(2).trim());
+
+            // Assign the value to the appropriate variable
+            if (variable == 'a') {
+                a = value;
+                jTextField1.setText("b=");
+            } else if (variable == 'b') {
+                b = value;
+                jTextField1.setText("c=");
+            } else if (variable == 'c') {
+                c = value;
+                jLabel1.setText("");
+
+                // Check if all variables are assigned
+                if (!Double.isNaN(a) && !Double.isNaN(b) && !Double.isNaN(c)) {
+                    // Solve the equation
+                    String roots = handleEquation(a, b, c);
+                    jTextField1.setText(roots);
+
+                    // Reset values after computation
+                    a = b = c = Double.NaN;
+                }
+            }
+            return; // Exit after handling variable assignment
+        }
+
+        // Handle infix evaluation (if operation is "string")
+        if ("string".equals(operation)) {
+            try {
+                // Solve the infix expression
+                double result = solveInfix(inputText);
+
+                // Display the result
+                jTextField1.setText(String.valueOf(result));
+            } catch (IllegalArgumentException e) {
+                jTextField1.setText("Error: " + e.getMessage());
+            }
+            return; // Exit after handling infix case
+        }
+
+        // Handle numeric operations
+        double secondOperand = Double.parseDouble(inputText);
+
+        switch (operation) {
+            case "+":
+                answer = number + secondOperand;
+                break;
+            case "-":
+                answer = number - secondOperand;
+                break;
+            case "*":
+                answer = number * secondOperand;
+                break;
+            case "/":
+                if (secondOperand == 0) {
+                    jTextField1.setText("Cannot divide by zero!");
+                    return;
+                }
+                answer = number / secondOperand;
+                break;
+            case "%":
+                answer = (secondOperand / number) * 100;
+                break;
+            case "^":
+                answer = Math.pow(number, secondOperand);
+                break;
+            default:
+                jTextField1.setText("Invalid operation!");
+                return;
+        }
+
+        // Display the result for numeric operations
+        jTextField1.setText(String.valueOf(answer));
+
+        // Reset operation and number after computation
+        operation = "";
+        number = 0.0;
+
+    } catch (NumberFormatException e) {
+        jTextField1.setText("Invalid input! Please enter numeric values.");
+    } catch (Exception e) {
+        jTextField1.setText("An unexpected error occurred: " + e.getMessage());
     }
+}
+
+
+
+
+
+
 
 
 
@@ -1109,5 +1246,95 @@ class Calculator implements ActionListener {
             jTextField1.setText("Error: " + e.getMessage());
         }
     }
+    
+private static double solveInfix(String expression) throws IllegalArgumentException {
+    try {
+        // Remove spaces from the input
+        expression = expression.replaceAll("\\s+", "");
+
+        // Stacks for operators and operands
+        Stack<Double> operands = new Stack<>();
+        Stack<Character> operators = new Stack<>();
+
+        // Operator precedence map
+        Map<Character, Integer> precedence = Map.of(
+            '+', 1, '-', 1,
+            '*', 2, '/', 2,
+            '(', 0
+        );
+
+        for (int i = 0; i < expression.length(); i++) {
+            char ch = expression.charAt(i);
+
+            if (Character.isDigit(ch)) {
+                // Parse number (including multi-digit)
+                int start = i;
+                while (i < expression.length() && 
+                       (Character.isDigit(expression.charAt(i)) || expression.charAt(i) == '.')) {
+                    i++;
+                }
+                operands.push(Double.parseDouble(expression.substring(start, i)));
+                i--; // Adjust index after loop
+            } else if (ch == '(') {
+                operators.push(ch);
+            } else if (ch == ')') {
+                // Process until matching '('
+                while (!operators.isEmpty() && operators.peek() != '(') {
+                    evaluateTop(operands, operators);
+                }
+                if (operators.isEmpty() || operators.pop() != '(') {
+                    throw new IllegalArgumentException("Unmatched parentheses");
+                }
+            } else if (precedence.containsKey(ch)) {
+                // Process operators with higher or equal precedence
+                while (!operators.isEmpty() &&
+                       precedence.get(operators.peek()) >= precedence.get(ch)) {
+                    evaluateTop(operands, operators);
+                }
+                operators.push(ch);
+            } else {
+                throw new IllegalArgumentException("Invalid character: " + ch);
+            }
+        }
+
+        // Process remaining operators
+        while (!operators.isEmpty()) {
+            if (operators.peek() == '(') {
+                throw new IllegalArgumentException("Unmatched parentheses");
+            }
+            evaluateTop(operands, operators);
+        }
+
+        // Final result
+        if (operands.size() != 1) {
+            throw new IllegalArgumentException("Invalid expression");
+        }
+        return operands.pop();
+
+    } catch (ArithmeticException e) {
+        throw new IllegalArgumentException("Math error: " + e.getMessage());
+    }
+}
+
+// Helper function to evaluate the top of the stacks
+private static void evaluateTop(Stack<Double> operands, Stack<Character> operators) {
+    if (operands.size() < 2 || operators.isEmpty()) {
+        throw new IllegalArgumentException("Invalid expression");
+    }
+    double b = operands.pop();
+    double a = operands.pop();
+    char op = operators.pop();
+
+    switch (op) {
+        case '+': operands.push(a + b); break;
+        case '-': operands.push(a - b); break;
+        case '*': operands.push(a * b); break;
+        case '/': 
+            if (b == 0) throw new ArithmeticException("Division by zero");
+            operands.push(a / b);
+            break;
+        default: throw new IllegalArgumentException("Unknown operator: " + op);
+    }
+}
 
 }
