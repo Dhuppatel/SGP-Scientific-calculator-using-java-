@@ -736,6 +736,10 @@ class Calculator implements ActionListener {
             if (onRadioButton.isSelected()) {
                 toggleCalculator(true);
             }
+        }else if (source==parenthesisOpen) {
+            jTextField1.setText(jTextField1.getText()+"(");
+        }else if (source==parenthasisClose){
+            jTextField1.setText(jTextField1.getText()+")");
         }
     }
 
