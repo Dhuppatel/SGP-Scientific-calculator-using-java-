@@ -15,7 +15,7 @@ class Calculator implements ActionListener {
     JLabel label=new JLabel();
     JTextField textField=new JTextField();
 
-    private javax.swing.JButton Underroot;
+    private javax.swing.JButton infix;
     private javax.swing.JButton ac;
     private javax.swing.JButton clr;
     private javax.swing.JButton cos;
@@ -63,7 +63,7 @@ class Calculator implements ActionListener {
     private javax.swing.JButton sinh;
     private javax.swing.JButton tan;
     private javax.swing.JButton tanh;
-    private javax.swing.JButton xQube;
+    private javax.swing.JButton Underroot;
     private javax.swing.JButton xSquare;
     private javax.swing.JButton xraisetoy;
 
@@ -107,7 +107,7 @@ class Calculator implements ActionListener {
         jButton6 = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        Underroot = new javax.swing.JButton();
+        infix = new javax.swing.JButton(); //orignal
         exp = new javax.swing.JButton();
         sin = new javax.swing.JButton();
         cos = new javax.swing.JButton();
@@ -136,7 +136,7 @@ class Calculator implements ActionListener {
         num3 = new javax.swing.JButton();
         plus = new javax.swing.JButton();
         factorial = new javax.swing.JButton();
-        xQube = new javax.swing.JButton();
+        Underroot= new javax.swing.JButton();
         num0 = new javax.swing.JButton();
         dot = new javax.swing.JButton();
         equalTo = new javax.swing.JButton();
@@ -187,10 +187,10 @@ class Calculator implements ActionListener {
         jLabel1.setText("");
         jLabel1.setHorizontalAlignment(SwingConstants.RIGHT);
 
-        Underroot.setBackground(new java.awt.Color(204, 204, 204));
-        Underroot.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        Underroot.setText("√");
-        Underroot.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        infix.setBackground(new java.awt.Color(204, 204, 204));//orignal root
+        infix.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        infix.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        infix.setText("infix");
 
 
         exp.setBackground(new java.awt.Color(204, 204, 204));
@@ -367,10 +367,10 @@ class Calculator implements ActionListener {
         factorial.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
 
 
-        xQube.setBackground(new java.awt.Color(204, 204, 204));
-        xQube.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        xQube.setText("x^3");
-        xQube.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        Underroot.setBackground(new java.awt.Color(204, 204, 204));
+        Underroot.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        Underroot.setText("√");
+        Underroot.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
 
 
         num0.setBackground(new java.awt.Color(204, 204, 204));
@@ -465,7 +465,7 @@ class Calculator implements ActionListener {
                                                                 .addComponent(multiply, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
                                                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                                 .addGroup(layout.createSequentialGroup()
-                                                                        .addComponent(xQube, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addComponent(Underroot, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                                         .addComponent(num7, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -505,7 +505,7 @@ class Calculator implements ActionListener {
                                         .addGroup(layout.createSequentialGroup()
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                                         .addGroup(layout.createSequentialGroup()
-                                                                .addComponent(Underroot, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addComponent(infix, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                                 .addComponent(exp, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -548,7 +548,7 @@ class Calculator implements ActionListener {
                                         .addComponent(cos, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(sin, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(exp, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(Underroot, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(infix, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(tan, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -569,7 +569,7 @@ class Calculator implements ActionListener {
                                         .addComponent(num9, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(num8, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(num7, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(xQube, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(Underroot, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(divide, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -601,12 +601,12 @@ class Calculator implements ActionListener {
     private void toggleCalculator(boolean enable) {
         // Group buttons into an array for enabling/disabling
         JButton[] buttons = {
-                Underroot, ac, clr, cos, cosh, divide, dot, equalTo, equation,
+                infix, ac, clr, cos, cosh, divide, dot, equalTo, equation,
                 exp, factorial, inverse, jButton20, jButton21, jButton22, jButton23,
                 jButton28, jButton29, jButton30, jButton31, jButton4, jButton6,
                 log, minus, modulo, multiply, num0, num1, num2, num3, num4,
                 num5, num6, num7, num8, num9, parenthasisClose, parenthesisOpen,
-                plus, plusorminus, sin, sinh, tan, tanh, xQube, xSquare,
+                plus, plusorminus, sin, sinh, tan, tanh, xSquare,
                 xraisetoy
         };
 
@@ -629,11 +629,11 @@ class Calculator implements ActionListener {
 
     public void addActionEvents() {
         AbstractButton[] buttons = { // Use AbstractButton to include both JButtons and JRadioButtons
-                Underroot, ac, clr, cos, cosh, dot, divide, equalTo, exp, equation,
+                infix,Underroot, ac, clr, cos, cosh, dot, divide, equalTo, exp, equation,
                 factorial, inverse, log, minus, modulo, multiply, num0, num1, num2,
                 num3, num4, num5, num6, num7, num8, num9, offRadioButton, onRadioButton,
                 parenthasisClose, parenthesisOpen, plus, plusorminus, sin, sinh, tan,
-                tanh, xQube, xSquare, xraisetoy
+                tanh,  xSquare, xraisetoy
         };
 
         for (AbstractButton button : buttons) {
@@ -719,9 +719,11 @@ class Calculator implements ActionListener {
             performExponential();
         } else if (source == factorial) { // Handle factorial calculation
             performFactorial();
-        } else if (source == xQube) { // Handle cube (x^3)
-            performCube();
-        } else if (source == xraisetoy) { // Handle power operation (x^y)
+        } 
+        // else if (source == xQube) { // Handle cube (x^3)
+        //     performCube();
+        // } 
+        else if (source == xraisetoy) { // Handle power operation (x^y)
             handlePowerOperation();
         } else if (source == offRadioButton) { // Handle off state
             if (offRadioButton.isSelected()) {
@@ -788,7 +790,7 @@ class Calculator implements ActionListener {
                 char variable = inputText.charAt(0);
                 double value = Double.parseDouble(inputText.substring(2).trim());
 
-                /
+                
                 if (variable == 'a') {
                     a = value;
                     jTextField1.setText("b=");
