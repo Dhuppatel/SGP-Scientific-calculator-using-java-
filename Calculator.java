@@ -775,20 +775,20 @@ class Calculator implements ActionListener {
 
     private void calculateResult() {
         try {
-            // Check if the text field is empty or has only whitespace
+           
             String inputText = jTextField1.getText().trim();
             if (inputText.isEmpty()) {
                 jTextField1.setText("Input cannot be empty!");
                 return;
             }
 
-            // Check if the input is for a variable assignment
+           
             if (inputText.startsWith("a=") || inputText.startsWith("b=") || inputText.startsWith("c=")) {
-                // Determine which variable is being assigned
+                
                 char variable = inputText.charAt(0);
                 double value = Double.parseDouble(inputText.substring(2).trim());
 
-                // Assign the value to the appropriate variable
+                /
                 if (variable == 'a') {
                     a = value;
                     jTextField1.setText("b=");
@@ -798,18 +798,21 @@ class Calculator implements ActionListener {
                 } else if (variable == 'c') {
                     c = value;
                     jLabel1.setText("");
-                    // Optionally, you can call the equation solving method here
-                    if (a != 0 && b != 0 && c != 0) {
+
+                  
+                    if (!Double.isNaN(a) && !Double.isNaN(b) && !Double.isNaN(c)) {
+                        
                         String roots = handleEquation(a, b, c);
                         jTextField1.setText(roots);
-                        // Reset values after computation
-                        a = b = c = 0;
+
+                       
+                        a = b = c = Double.NaN;
                     }
                 }
-                return; // Exit after handling variable assignment
+                return; 
             }
 
-            // At this point, the input should be a numeric value
+            
             double secondOperand = Double.parseDouble(inputText);
 
             switch (operation) {
@@ -840,7 +843,7 @@ class Calculator implements ActionListener {
                     return;
             }
 
-            // Set the result in the text field
+          
             jTextField1.setText(String.valueOf(answer));
         } catch (NumberFormatException e) {
             jTextField1.setText("Invalid input! Please enter numeric values.");
@@ -853,10 +856,9 @@ class Calculator implements ActionListener {
 
     private String handleEquation(double a, double b, double c) {
         try {
-            // Calculate the discriminant
+           
             double discriminant = b * b - 4 * a * c;
 
-            // Determine the roots
             if (discriminant > 0) {
                 double root1 = (-b + Math.sqrt(discriminant)) / (2 * a);
                 double root2 = (-b - Math.sqrt(discriminant)) / (2 * a);
@@ -877,13 +879,11 @@ class Calculator implements ActionListener {
 
 
 
-    // Perform various operations (these can be further implemented as needed)
     private void performInverse() {
         try {
-            // Attempt to parse the value from the text field
+           
             double value = Double.parseDouble(jTextField1.getText());
 
-            // Check if the value is not zero to avoid division by zero
             if (value != 0) {
                 // Calculate and display the inverse
                 jTextField1.setText(String.valueOf(1 / value));
@@ -919,20 +919,35 @@ class Calculator implements ActionListener {
 
 
     private void togglePlusMinus() {
-        try {
-            // Attempt to parse the value from the text field
-            double value = Double.parseDouble(jTextField1.getText());
+            try {
 
-            // Negate the value and update the text field
-            jTextField1.setText(String.valueOf(-value));
-        } catch (NumberFormatException e) {
-            // Handle invalid input (not a number)
-            jTextField1.setText("Invalid input!");
-        } catch (Exception e) {
-            // Handle any other unexpected exceptions
-            jTextField1.setText("Error: " + e.getMessage());
+                String text = jTextField1.getText();
+
+
+                if (text.contains("=")) {
+
+                    String[] parts = text.split("=", 2);
+                    String prefix = parts[0] + "=";
+                    String numericPart = parts[1];
+
+
+                    double value = Double.parseDouble(numericPart);
+
+
+                    jTextField1.setText(prefix + (-value));
+                } else {
+
+                    double value = Double.parseDouble(text);
+                    jTextField1.setText(String.valueOf(-value));
+                }
+            } catch (NumberFormatException e) {
+
+                jTextField1.setText("Invalid input!");
+            } catch (Exception e) {
+
+                jTextField1.setText("Error: " + e.getMessage());
+            }
         }
-    }
 
 
     private void performSquareRoot() {
@@ -984,7 +999,7 @@ class Calculator implements ActionListener {
                 jTextField1.setText("Invalid input for log");
             } else {
                 // Calculate the logarithm and update the text field
-                jTextField1.setText(String.valueOf(Math.log(value)));
+                jTextField1.setText(String.valueOf(Math.log10(value)));
             }
         } catch (NumberFormatException e) {
             // Handle invalid input (not a number)
