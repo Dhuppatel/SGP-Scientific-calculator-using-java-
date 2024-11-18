@@ -775,22 +775,22 @@ class Calculator implements ActionListener {
         }
     }
 
-    private void calculateResult() {
+   private void calculateResult() {
         try {
-           
+            // Check if the text field is empty or has only whitespace
             String inputText = jTextField1.getText().trim();
             if (inputText.isEmpty()) {
                 jTextField1.setText("Input cannot be empty!");
                 return;
             }
 
-           
+            // Handle variable assignments (a=, b=, c=)
             if (inputText.startsWith("a=") || inputText.startsWith("b=") || inputText.startsWith("c=")) {
-                
+                // Determine which variable is being assigned
                 char variable = inputText.charAt(0);
                 double value = Double.parseDouble(inputText.substring(2).trim());
 
-                
+                // Assign the value to the appropriate variable
                 if (variable == 'a') {
                     a = value;
                     jTextField1.setText("b=");
@@ -801,20 +801,20 @@ class Calculator implements ActionListener {
                     c = value;
                     jLabel1.setText("");
 
-                  
+                    // Check if all variables are assigned
                     if (!Double.isNaN(a) && !Double.isNaN(b) && !Double.isNaN(c)) {
-                        
+                        // Solve the equation
                         String roots = handleEquation(a, b, c);
                         jTextField1.setText(roots);
 
-                       
+                        // Reset values after computation
                         a = b = c = Double.NaN;
                     }
                 }
-                return; 
+                return; // Exit after handling variable assignment
             }
 
-            
+            // Handle mathematical operations
             double secondOperand = Double.parseDouble(inputText);
 
             switch (operation) {
@@ -838,6 +838,7 @@ class Calculator implements ActionListener {
                     answer = (secondOperand / number) * 100;
                     break;
                 case "^":
+                    // Exponentiation logic (x^y)
                     answer = Math.pow(number, secondOperand);
                     break;
                 default:
@@ -845,8 +846,13 @@ class Calculator implements ActionListener {
                     return;
             }
 
-          
+            // Set the result in the text field
             jTextField1.setText(String.valueOf(answer));
+
+            // Reset operation and number after completion
+            operation = "";
+            number =(double) 0;
+
         } catch (NumberFormatException e) {
             jTextField1.setText("Invalid input! Please enter numeric values.");
         } catch (Exception e) {
@@ -1084,31 +1090,19 @@ class Calculator implements ActionListener {
 
     private void handlePowerOperation() {
         try {
-            // Capture the base (already stored in 'number')
-            double base = number;
+            // Capture the base value (from the text field)
+            double base = Double.parseDouble(jTextField1.getText());
 
-            // Clear the text field to input the exponent
+            // Clear the text field to allow input of the exponent
             jTextField1.setText("");
+            operation = "^"; // Store the operation type
+            number = base;   // Store the base value globally
+            jLabel1.setText(base + " ^ "); // Update the label to show the base and operation
 
-            // Store the operation type
-            operation = "^";
-            jLabel1.setText(base + "^"); // Update the label to show the operation
-
-            // Add an ActionListener to capture the exponent when the user inputs it
-            equalTo.addActionListener(e -> {
-                try {
-                    double exponent = Double.parseDouble(jTextField1.getText());
-                    // Calculate the power
-                    double result = Math.pow(base, exponent);
-                    // Display the result
-                    jTextField1.setText("" + result);
-                } catch (NumberFormatException ex) {
-                    jTextField1.setText("Invalid input!");
-                }
-            });
-
+        } catch (NumberFormatException e) {
+            jTextField1.setText("Invalid input!");
         } catch (Exception e) {
-            jTextField1.setText("Error!");
+            jTextField1.setText("Error: " + e.getMessage());
         }
     }
 
